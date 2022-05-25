@@ -109,7 +109,7 @@ class gridSearcher:
             W,H = nSolver.fit_transform(noisy)
         else:
             K = self.kernelize(beta)
-            dSolver = diffusionNMF(n_components = rank, kernel = K, mask = M, n_iter = self.max_iter, tol = self.tolerance)
+            dSolver = diff_nmf(n_components = rank, kernel = K, mask = M, n_iter = self.max_iter, tol = self.tolerance)
             W,H = dSolver.fit_transform(noisy)
         
         rel_error = self.relative_error(W,H,K,M)

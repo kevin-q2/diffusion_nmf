@@ -30,7 +30,7 @@ import seaborn as sns
 def gen_decomposition(n, m, rank, state = None):
     
     # Generate random H with scipy's sparse random
-    test_h = sp.random(rank, m, density = 0.07).A
+    test_h = sp.random(rank, m, density = 0.07, random_state = state).A
     
     # generate new H if we have any zero rows
     while np.where(np.sum(test_h, axis = 1) == 0)[0].size != 0:
@@ -115,5 +115,29 @@ def add_noise(data, std_dev = None):
             else:
                 matr[rower, coler] += noisy
     
-            
     return matr
+
+
+##################################################################################################
+# Creates a matrix of 0s -- unknown values -- and 1's -- known values ---
+# in order to "mask" the data and split it into train/test sets
+#
+# input:
+#   data - numpy array data matrix
+#   percent_hide - the percent of matrix entries which will be randomly deemed as unknown -- 0
+#
+# output:
+#   mask - a numpy array of 0's and 1's where each 0 entry denotes an entry that will
+#            be hidden for testing and each 1 denotes an entry that will be used for training.
+#
+################################################################################################
+
+def train_mask(data, percent_hide):
+    # "hide" a given percentage of the data
+    num_entries = data.shape[0]*data.shape[1]
+    mask = np.zeros(num_entries)
+    mask[:int(num_entries * (1 - percent_hide))] = 1
+    np.random.shuffle(mask)
+    mask = mask.reshape(data.shape)
+    
+    return mask
