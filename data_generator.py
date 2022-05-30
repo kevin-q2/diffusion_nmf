@@ -141,3 +141,36 @@ def train_mask(data, percent_hide):
     mask = mask.reshape(data.shape)
     
     return mask
+
+
+###############################################################################################
+# Normalize a data set by its corresponding population dataframe
+#
+# input: 
+#   data - input dataset
+#   population - input set of population
+def population_normalizer(data, population, axis = 1):
+        #Normalized based on populations. i.e. for schools divide all cases by total enrollment
+        # AS input it takes a dictionary where each key is a column name
+        # and each value is the population to divide by 
+        # ex) {'Alaska':731545}
+        
+        # Note: this can also be generalized to normalize based on any input values
+        # Returns a new matrix operation object
+
+        norm = self.dataframe.copy(deep=True)
+        droppers = []
+        for i in norm.columns:
+            try:
+                norm[i] /= pop_frame[i]
+            except:
+                if level is not None:
+                    try:
+                        norm[i] /= pop_frame[i[level]]
+                    except KeyError:
+                        print(i)
+                        droppers.append(i)
+                else:
+                    pass
+        norm = norm.drop(droppers, axis = 1)                
+        return mat_opr(norm)
