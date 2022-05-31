@@ -3,6 +3,7 @@ import pandas as pd
 import scipy.sparse as sp
 import networkx as nx
 import seaborn as sns
+from sklearn.isotonic import IsotonicRegression
 
 #################################################################################
 # A simple function for generating random W,H matrices to be used 
@@ -142,3 +143,56 @@ def train_mask(data, percent_hide):
     
     return mask
 
+
+##################################################################################################
+# Isotonic Regression - fixes the problem of decreasing data points
+# for data like cumulative COVID-19 cases, every new day should have cases >= the previous day.
+# However, the raw data we have collected does not always reflect this (errors in case counts).
+# To fix this we fit a strictly increasing line to the data. (Note that if a feature is already 
+# strictly increasing then nothing will change)
+#
+# input:
+#   data - numpy or pandas data matrix
+#   axis - 0 or 1 (0 to operate row-wise and 1 to operate column-wise)
+#
+# output:
+#   iso_data - new data matrix for which all entries along given axis are strictly increasing
+#
+###################################################################################################
+
+def iso_regression(data, axis = 1):
+    # check inputs:
+    
+    # store column and row names if working with a pandas dataframe (will return them later)
+    panda = False
+    if isinstance(data, pd.DataFrame):
+        panda = True
+        ind = data.index
+        cols = data.columns
+        data = data.to_numpy()
+
+    # if we need to work with rows, just transpose for now and transpose back at the end
+    if axis == 0:
+        data = data.T
+    elif axis != 1:
+        raise ValueError("axis variable must be either 0 or 1")
+    
+    # empty matrix to fill with corrected columns
+    iso_data = np.zeros(data.shape)
+    
+    # perform isotonic regression on all columns
+    for column in range(data.shape[1]):
+        iso = IsotonicRegression(out_of_bounds = "clip")
+        iso.fit(range(data.shape[0]), data[:,column])
+        iso_data[:,column] = iso.predict(range(data.shape[0]))
+    
+    
+    # return shape and type of original input
+    if axis == 0:
+        iso_data = iso_data.T
+    
+    if panda:
+        iso_data = pd.DataFrame(iso_data, index = ind, columns = cols)
+        
+    
+    return iso_data
