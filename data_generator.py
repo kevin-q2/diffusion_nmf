@@ -4,6 +4,7 @@ import scipy.sparse as sp
 import networkx as nx
 import seaborn as sns
 from sklearn.isotonic import IsotonicRegression
+import copy
 
 #################################################################################
 # A simple function for generating random W,H matrices to be used 
@@ -196,3 +197,31 @@ def iso_regression(data, axis = 1):
         
     
     return iso_data
+
+
+#################################################################################
+# A quick and easy function that helps with presentation of output matrices
+# from the diffusion NMF algorithm
+
+# given that D-NMF outputs X and V matrices this function rescales them as follows:
+# X is divided by its maximum element so that everything falls on a scale of 0-1
+# V is multiplied by X's maximum element in order to absorb the term that was factored out of X
+
+# input:
+#   - X - (m x k) matrix from D-NMF output
+#   - V - (k x n) matrix from D-NMF output
+
+# output:
+#   - rescaled X
+#   - rescaled V
+
+################################################################################
+def rescale(X,V):
+    X = copy.deepcopy(X)
+    V = copy.deepcopy(V)
+
+    maxer = np.amax(X)
+    X /= maxer
+    V *= maxer
+    
+    return X,V
