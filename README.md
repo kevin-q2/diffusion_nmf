@@ -18,6 +18,12 @@ Can used for testing the algorithm for hyper-parameter selection. In particular 
 - **examples/**
 Contains a few jupyter notebooks with detailed examples on how we used the code for analyzing COVID-19 data.
 
+All necessary requirements (and maybe more) for the programs and example notebooks can be found within requirements.txt and downloaded with the following command. Please consider doing this within a new virtual environment.
+
+```
+pip install -r requirements.txt
+```
+
 ## COVID-19 Data
 
 Also included are prepared COVID-19 datasets. All Covid case data is supplied by [Johns Hopkins](https://github.com/CSSEGISandData/COVID-19). For each of the country-wide, US state-wide, and US county-wide data sets we've included data for the regions cumulative COVID-19 case counts since April 2020 (still being updated at irregular intervals), data about the region's populations, the laplacian matrix corresponding to the region's adjacency graph, and the geo-json files needed for creating visual maps of the region. This data was obtained from various sources: 
