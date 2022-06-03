@@ -27,7 +27,7 @@ A less intensive install can be done with:
 ```
 pip install -r requirements.txt
 ```
-However this will NOT download the geopandas package required for creating maps, as it seems to cause problems with Windows. To download geopandas afterwards please look to https://geopandas.org/en/stable/getting_started/install.html
+However this will NOT download the geopandas package required for creating maps, as it seems to cause problems with Windows. To download geopandas separately please look to https://geopandas.org/en/stable/getting_started/install.html
 
 ## COVID-19 Data
 
