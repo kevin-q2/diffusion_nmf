@@ -1,0 +1,7 @@
+name: diff_env
+channels:
+  - defaults
+dependencies:
+  - geopandas
+  - matplotlib
+  - seaborn
