@@ -20,7 +20,7 @@ Contains a few jupyter notebooks with detailed examples on how we used the code 
 
 To download all requirements via Anaconda (replacing <env> with desired name):
 ```
-conda create --name <env> --file conda_requirements.txt
+conda env create -f environment.yml
 ```
 
 A less intensive install can be done with:
