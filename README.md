@@ -18,11 +18,16 @@ Can used for testing the algorithm for hyper-parameter selection. In particular 
 - **examples/**
 Contains a few jupyter notebooks with detailed examples on how we used the code for analyzing COVID-19 data.
 
-All necessary requirements (and maybe more) for the programs and example notebooks can be found within requirements.txt and downloaded with the following command. Please consider doing this within a new virtual environment.
+To download all requirements via Anaconda (replacing <env> with desired name):
+```
+conda create --name <env> --file conda_requirements.txt
+```
 
+A less intensive install can be done with:
 ```
 pip install -r requirements.txt
 ```
+However this will NOT download the geopandas package required for creating maps, as it seems to cause problems with Windows. To download geopandas separately please look to https://geopandas.org/en/stable/getting_started/install.html
 
 ## COVID-19 Data
 
